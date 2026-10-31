@@ -122,9 +122,9 @@ function render(){
   $('#g2').innerHTML=l.length?l.map(card).join(''):'<p class="empty" style="grid-column:1/-1">Produk tidak ditemukan.</p>';
 }
 ['fc','fs','fp','fa','fo'].forEach(i=>$('#'+i).onchange=render);
-function open(d){$('#ov').classList.add('on');$(d).classList.add('on')}
+function openD(d){$('#ov').classList.add('on');$(d).classList.add('on')}
 function closeAll(){document.querySelectorAll('.drawer,.ov,.modal').forEach(e=>e.classList.remove('on'))}
-$('#bm').onclick=()=>open('#dm');$('#bc').onclick=()=>{cartUI();open('#dc')};$('#ov').onclick=closeAll;
+$('#bm').onclick=()=>openD('#dm');$('#bc').onclick=()=>{cartUI();openD('#dc')};$('#ov').onclick=closeAll;
 document.addEventListener('click',e=>{
   if(e.target.closest('[data-close]'))closeAll();
   if(e.target===$('#pm'))closeAll();
@@ -148,7 +148,7 @@ function product(id){
     if(e.target.id==='add'){
       if((p.sizes||[]).length&&!sel.size)return alert('Pilih ukuran dulu');
       const k=cart.find(c=>c.id===id&&c.size===sel.size);k?k.qty=Math.min(k.qty+1,p.stock):cart.push({id,size:sel.size,qty:1});
-      saveCart();closeAll();cartUI();open('#dc');
+      saveCart();closeAll();cartUI();openD('#dc');
     }
   };
 }
