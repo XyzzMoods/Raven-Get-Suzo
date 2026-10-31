@@ -56,7 +56,6 @@ footer h2{color:#fff;margin-bottom:12px;font-size:22px}footer a{opacity:.85}.fl{
   <button id="bc" aria-label="Keranjang"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span id="cc">0</span></button>
 </header>
 <div class="hero" id="hero"><div><h1 id="ht">NEW<br>COLLECTION</h1><a class="btn w" href="#all">Shop now</a></div></div>
-<section id="new"><h2>NEW ARRIVAL</h2><div class="grid" id="g1"></div></section>
 <section id="all"><h2>ALL PRODUCTS</h2>
   <div class="filters">
     <select id="fc"></select><select id="fs"></select>
@@ -68,7 +67,7 @@ footer h2{color:#fff;margin-bottom:12px;font-size:22px}footer a{opacity:.85}.fl{
 
 <div class="ov" id="ov"></div>
 <aside class="drawer" id="dm"><div class="dh"><b class="bb" style="font-size:15px">MENU</b><button data-close>&times;</button></div>
-  <div class="db menu"><a href="#" data-close>Home</a><a href="#new" data-close>New Arrival</a><a href="#all" data-close>All Products</a><a id="igm" href="#" target="_blank">Instagram</a></div></aside>
+  <div class="db menu"><a href="#" data-close>Home</a><a href="#all" data-close>All Products</a><a id="igm" href="#" target="_blank">Instagram</a></div></aside>
 <aside class="drawer r" id="dc"><div class="dh"><b class="bb" style="font-size:15px">KERANJANG</b><button data-close>&times;</button></div>
   <div class="db" id="cl"></div>
   <div class="df"><div style="display:flex;justify-content:space-between;margin-bottom:12px"><span>Total</span><b id="ct">Rp 0</b></div>
@@ -111,8 +110,7 @@ function init(){
 const card=p=>`<div class="card" data-id="${esc(p.id)}"><div class="ph">${p.images?.[0]?`<img loading="lazy" src="${esc(img(p.images[0]))}" alt="${esc(p.name)}">`:esc(p.name)}${p.stock<=0?'<span class="tag">SOLD OUT</span>':''}</div>
 <h3>${esc(p.name)}</h3><p>${rp(p.price)}</p>${p.rating?`<small>&#9734; ${p.rating}</small>`:''}</div>`;
 function render(){
-  const f=p=>p.featured,n=[...P].sort((a,b)=>(b.ts||0)-(a.ts||0)).slice(0,4);
-  $('#g1').innerHTML=n.map(card).join('');
+  const f=p=>p.featured;
   let l=[...P];const c=$('#fc').value,s=$('#fs').value,pr=$('#fp').value,a=$('#fa').value,o=$('#fo').value;
   if(c)l=l.filter(p=>p.category===c);if(s)l=l.filter(p=>(p.sizes||[]).includes(s));
   if(pr){const[x,y]=pr.split('-').map(Number);l=l.filter(p=>p.price>=x&&p.price<y)}
@@ -158,10 +156,13 @@ function cartUI(){
   $('#cc').textContent=cart.reduce((a,c)=>a+c.qty,0);
   let t=0;$('#cl').innerHTML=cart.length?cart.map((c,i)=>{const p=P.find(x=>x.id===c.id);t+=p.price*c.qty;
     return `<div class="ci"><div class="ph">${p.images?.[0]?`<img src="${esc(img(p.images[0]))}">`:''}</div><div><b>${esc(p.name)}</b><br>${c.size?'Size '+esc(c.size)+' · ':''}${rp(p.price)}
-    <div class="q" style="margin-top:8px"><button data-q="${i}" data-d="-1">-</button> ${c.qty} <button data-q="${i}" data-d="1">+</button></div></div></div>`}).join(''):'<p class="empty">Keranjang kosong</p>';
+    <div class="q" style="margin-top:8px"><button data-q="${i}" data-d="-1">-</button> ${c.qty} <button data-q="${i}" data-d="1">+</button></div>
+    <button data-x="${i}" style="margin-top:8px;background:none;border:0;color:#c00;font-size:13px;text-decoration:underline">Hapus</button></div></div>`}).join(''):'<p class="empty">Keranjang kosong</p>';
   $('#ct').textContent=rp(t);
 }
-$('#cl').onclick=e=>{const i=e.target.dataset.q;if(i==null)return;const c=cart[i],p=P.find(x=>x.id===c.id);
+$('#cl').onclick=e=>{
+  const x=e.target.dataset.x;if(x!=null){cart.splice(x,1);saveCart();cartUI();return}
+  const i=e.target.dataset.q;if(i==null)return;const c=cart[i],p=P.find(x=>x.id===c.id);
   c.qty=Math.min(c.qty+Number(e.target.dataset.d),p.stock);if(c.qty<=0)cart.splice(i,1);saveCart();cartUI()};
 $('#co').onclick=()=>{
   if(!cart.length)return;const n=$('#cn').value.trim(),a=$('#ca').value.trim();if(!n||!a)return alert('Isi nama dan alamat');
