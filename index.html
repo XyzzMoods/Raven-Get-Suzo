@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="id"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('rv_theme')||localStorage.getItem('rv_theme_def')||'minimal'}catch(e){}</script>
 <title>RavenGetSuzo | Site</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="icon" type="image/jpeg" href="https://files.catbox.moe/zja3e5.jpg">
 <style>
+/* ===== TEMA 1: MINIMAL (default) ===== */
 *{box-sizing:border-box;margin:0}
 html{scroll-behavior:smooth}body{font:400 15px/1.5 Inter,sans-serif;color:#111;background:#fff;-webkit-font-smoothing:antialiased}section,#new,#all{scroll-margin-top:70px}
 a{color:inherit;text-decoration:none}button,select,input,textarea{font:inherit}button{cursor:pointer}
@@ -61,6 +63,127 @@ footer h2{color:#fff;margin-bottom:12px;font-size:22px}footer a{opacity:.85}.fl{
 .sz{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.sz button{min-width:46px;padding:10px;border:1px solid #ccc;background:#fff}.sz button.on{background:#000;color:#fff;border-color:#000}
 .thumbs{display:flex;gap:6px;padding:6px}.thumbs img{width:56px;height:56px;object-fit:cover;cursor:pointer;opacity:.6}.thumbs img.on{opacity:1}
 .empty{text-align:center;color:#888;padding:40px}
+.th{margin-top:30px}.th b{display:block;margin-bottom:10px;font-size:13px}.th div{display:flex;gap:8px}.th button{flex:1;padding:10px 6px;border:1px solid #ccc;background:#fff;font-size:13px;font-weight:500}.th button.on{background:#000;color:#fff;border-color:#000}
+/* ===== TEMA 2: NEO-BRUTALISM (aktif jika <html data-theme="neo">) ===== */
+html[data-theme="neo"]{--o:#fdad2c;--c:#8fd3dd;--p:#ff98a0;--g:#f1f4f2;--k:#111}
+html[data-theme="neo"] *{box-sizing:border-box;margin:0}
+html[data-theme="neo"]{scroll-behavior:smooth}
+html[data-theme="neo"] body{font:400 15px/1.5 'Space Grotesk',sans-serif;color:var(--k);background:#fffaf0;-webkit-font-smoothing:antialiased}
+html[data-theme="neo"] section,html[data-theme="neo"] #new,html[data-theme="neo"] #all{scroll-margin-top:80px}
+html[data-theme="neo"] a{color:inherit;text-decoration:none}
+html[data-theme="neo"] button,html[data-theme="neo"] select,html[data-theme="neo"] input,html[data-theme="neo"] textarea{font:inherit}
+html[data-theme="neo"] button{cursor:pointer}
+html[data-theme="neo"] h1,html[data-theme="neo"] h2,html[data-theme="neo"] .bb{font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+html[data-theme="neo"] header{background:#000;color:#fff;position:sticky;top:0;z-index:20;height:64px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 20px;border-bottom:3px solid var(--o)}
+html[data-theme="neo"] #bm{justify-self:start}
+html[data-theme="neo"] .hr{justify-self:end;display:flex;gap:12px}
+html[data-theme="neo"] header button{background:#000;border:2px solid #fff;border-radius:8px;box-shadow:3px 3px 0 var(--o);color:#fff;padding:5px;position:relative;display:flex;transition:transform .08s,box-shadow .08s}
+html[data-theme="neo"] header button:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--o)}
+html[data-theme="neo"] .logo{font-weight:700;font-size:22px;letter-spacing:.3em;display:flex;align-items:center;justify-content:center;padding-left:.3em}
+html[data-theme="neo"] .logo img{height:80px;width:auto;display:block}
+html[data-theme="neo"] #cc,html[data-theme="neo"] #wc{position:absolute;top:-10px;right:-10px;background:var(--o);color:var(--k);border:2px solid var(--k);font:700 11px 'Space Mono',monospace;border-radius:9px;padding:0 6px}
+html[data-theme="neo"] #ann{background:var(--o);color:var(--k);text-align:center;font:700 12px 'Space Mono',monospace;letter-spacing:.06em;text-transform:uppercase;padding:8px 10px;border-bottom:3px solid var(--k)}
+html[data-theme="neo"] .hero{height:72vh;min-height:360px;background:var(--o) center/cover;display:flex;align-items:flex-end;padding:32px 20px;border-bottom:3px solid var(--k)}
+html[data-theme="neo"] .hero div{color:#fff}
+html[data-theme="neo"] .hero h1{font-size:clamp(48px,9vw,110px);line-height:.95;text-shadow:5px 5px 0 var(--k);-webkit-text-stroke:2px var(--k);paint-order:stroke fill}
+html[data-theme="neo"] .btn{display:inline-block;background:var(--o);color:var(--k);border:2px solid var(--k);border-radius:10px;box-shadow:4px 4px 0 var(--k);padding:12px 26px;margin-top:12px;letter-spacing:.06em;text-transform:uppercase;font-size:14px;font-weight:700}
+html[data-theme="neo"] .btn.w{background:#fff;color:var(--k);border-color:var(--k)}
+html[data-theme="neo"] .btn.full{width:100%;text-align:center}
+html[data-theme="neo"] .btn:disabled{background:#d6d6d6;border-color:#777;color:#666;box-shadow:4px 4px 0 #777;cursor:not-allowed}
+html[data-theme="neo"] section{max-width:1200px;margin:0 auto;padding:48px 20px}
+html[data-theme="neo"] #all{display:none}
+html[data-theme="neo"] #all.show{display:block}
+html[data-theme="neo"] h2{display:table;margin:0 auto 38px;font-size:24px;text-align:center;background:var(--p);color:var(--k);border:2px solid var(--k);border-radius:10px;box-shadow:5px 5px 0 var(--k);padding:6px 22px}
+html[data-theme="neo"] .filters{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-bottom:38px}
+html[data-theme="neo"] .filters select{appearance:none;-webkit-appearance:none;border:2px solid var(--k);background:#fff url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M1 1l4 4 4-4' fill='none' stroke='black' stroke-width='1.8'/></svg>") no-repeat right 12px center;padding:11px 34px 11px 14px;border-radius:8px;box-shadow:3px 3px 0 var(--k);font-weight:600;font-size:14px;color:var(--k);cursor:pointer}
+html[data-theme="neo"] .filters select:hover,html[data-theme="neo"] .filters select:focus{background-color:var(--c);outline:0}
+html[data-theme="neo"] .btn{transition:transform .08s,box-shadow .08s}
+html[data-theme="neo"] .btn:hover{opacity:1;transform:translate(2px,2px);box-shadow:2px 2px 0 var(--k)}
+html[data-theme="neo"] .btn:active{transform:translate(4px,4px);box-shadow:0 0 0 var(--k)}
+html[data-theme="neo"] .btn:disabled:hover{transform:none;box-shadow:4px 4px 0 #777}
+html[data-theme="neo"] .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px 18px}
+@media(min-width:800px){html[data-theme="neo"] .grid{grid-template-columns:repeat(4,1fr);gap:42px 28px}}
+html[data-theme="neo"] .card{cursor:pointer;background:#fff;border:2px solid var(--k);border-radius:12px;box-shadow:5px 5px 0 var(--k);transition:transform .1s,box-shadow .1s}
+html[data-theme="neo"] .card:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--k)}
+html[data-theme="neo"] .ph{aspect-ratio:1/1.1;background:var(--g);display:flex;align-items:center;justify-content:center;color:#777;overflow:hidden;position:relative;text-align:center;padding:10px;border-bottom:2px solid var(--k);border-radius:10px 10px 0 0;font-weight:600}
+html[data-theme="neo"] .ph img{width:100%;height:100%;object-fit:cover;transition:.4s}
+html[data-theme="neo"] .card:hover .ph img{transform:scale(1.04)}
+html[data-theme="neo"] .card.so{cursor:not-allowed;border-color:#777;box-shadow:5px 5px 0 #999}
+html[data-theme="neo"] .card.so:hover{transform:none;box-shadow:5px 5px 0 #999}
+html[data-theme="neo"] .card.so .ph img{filter:grayscale(1);opacity:.45}
+html[data-theme="neo"] .card.so:hover .ph img{transform:none}
+html[data-theme="neo"] .card.so .ph{background:#e5e5e5;border-bottom-color:#777}
+html[data-theme="neo"] .card.so h3,html[data-theme="neo"] .card.so p,html[data-theme="neo"] .card.so small{color:#999}
+html[data-theme="neo"] .tag{position:absolute;top:10px;left:10px;background:var(--p);color:var(--k);border:2px solid var(--k);border-radius:6px;box-shadow:2px 2px 0 var(--k);font:700 11px 'Space Mono',monospace;padding:2px 8px;letter-spacing:.06em}
+html[data-theme="neo"] .tag.ltd{top:auto;bottom:10px;background:var(--o);color:var(--k);border:2px solid var(--k)}
+html[data-theme="neo"] .heart{position:absolute;top:10px;right:10px;background:#fff;border:2px solid var(--k);width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:2;padding:0;box-shadow:2px 2px 0 var(--k);transition:transform .08s,box-shadow .08s}
+html[data-theme="neo"] .heart:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--k)}
+html[data-theme="neo"] .heart svg{width:16px;height:16px;fill:none;stroke:var(--k);stroke-width:2;pointer-events:none}
+html[data-theme="neo"] .heart.on{background:var(--p)}
+html[data-theme="neo"] .heart.on svg{fill:var(--k)}
+html[data-theme="neo"] .stars i{font-style:normal;color:#ccc}
+html[data-theme="neo"] .stars i.on{color:var(--o);-webkit-text-stroke:.8px var(--k)}
+html[data-theme="neo"] .shr{display:flex;gap:10px;margin-top:14px}
+html[data-theme="neo"] .shr button{flex:1;padding:9px 4px;border:2px solid var(--k);border-radius:8px;box-shadow:3px 3px 0 var(--k);background:#fff;font-size:13px;font-weight:600;transition:transform .08s,box-shadow .08s}
+html[data-theme="neo"] .shr button:nth-child(1){background:var(--c)}
+html[data-theme="neo"] .shr button:nth-child(2){background:var(--o)}
+html[data-theme="neo"] .shr button:hover{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--k)}
+html[data-theme="neo"] .rvs{margin-top:26px;border-top:2px solid var(--k);padding-top:16px}
+html[data-theme="neo"] .rv{padding:12px 0;border-bottom:1px dashed #999;font-size:14px}
+html[data-theme="neo"] .rf{margin-top:16px}
+html[data-theme="neo"] .rf input,html[data-theme="neo"] .rf textarea{width:100%;border:2px solid var(--k);padding:10px;margin:6px 0;border-radius:8px;background:#fff}
+html[data-theme="neo"] .rf input:focus,html[data-theme="neo"] .rf textarea:focus{outline:0;box-shadow:3px 3px 0 var(--k)}
+html[data-theme="neo"] .sp button{background:none;border:0;font-size:30px;color:#ccc;padding:0 3px;line-height:1}
+html[data-theme="neo"] .sp button.on{color:var(--o);-webkit-text-stroke:1px var(--k)}
+html[data-theme="neo"] .card h3{font-weight:700;font-size:14px;margin-top:12px;line-height:1.4;padding:0 12px}
+html[data-theme="neo"] .card p{margin-top:4px;padding:0 12px;font:700 14px 'Space Mono',monospace}
+html[data-theme="neo"] .card p:last-child{padding-bottom:12px}
+html[data-theme="neo"] .card small{display:block;color:#555;padding:2px 12px 12px;font-weight:600}
+html[data-theme="neo"] footer{background:#000;color:#fff;text-align:center;padding:64px 20px 40px;border-top:3px solid var(--o)}
+html[data-theme="neo"] footer h2{color:var(--k);background:var(--o);margin-bottom:18px;font-size:22px;box-shadow:5px 5px 0 var(--p)}
+html[data-theme="neo"] footer a{color:var(--o);font-weight:700;text-decoration:underline}
+html[data-theme="neo"] .fl{max-width:1200px;margin:56px auto 0;padding-top:24px;border-top:2px dashed #444;text-align:left;font-weight:700;letter-spacing:.2em;font-size:18px}
+html[data-theme="neo"] .fl img{height:80px;width:auto;display:block}
+html[data-theme="neo"] .fl{perspective:900px}
+html[data-theme="neo"] .coin{position:relative;display:inline-block;transform-style:preserve-3d;animation:spin3d 2.5s linear infinite}
+html[data-theme="neo"] .coin img{backface-visibility:hidden;-webkit-backface-visibility:hidden}
+html[data-theme="neo"] .coin img+img{position:absolute;top:0;left:0;transform:rotateY(180deg)}
+html[data-theme="neo"] .ov{position:fixed;inset:0;background:#000a;z-index:40;display:none}
+html[data-theme="neo"] .ov.on{display:block}
+html[data-theme="neo"] .drawer{position:fixed;top:0;bottom:0;width:min(400px,92vw);background:#fffaf0;border-right:3px solid var(--k);z-index:50;transform:translateX(-100%);transition:.3s;display:flex;flex-direction:column}
+html[data-theme="neo"] .drawer.r{right:0;transform:translateX(100%);border-right:0;border-left:3px solid var(--k)}
+html[data-theme="neo"] .drawer.on{transform:none}
+html[data-theme="neo"] .dh{padding:18px 20px;border-bottom:3px solid var(--k);background:var(--o);display:flex;justify-content:space-between;align-items:center}
+html[data-theme="neo"] .dh button{background:#fff;border:2px solid var(--k);border-radius:8px;box-shadow:2px 2px 0 var(--k);width:34px;height:34px;font-size:22px;line-height:1;padding:0}
+html[data-theme="neo"] .db{flex:1;overflow:auto;padding:20px}
+html[data-theme="neo"] .df{padding:20px;border-top:3px solid var(--k);background:var(--g)}
+html[data-theme="neo"] .menu a{display:block;padding:14px 10px;font-weight:700;font-size:18px;letter-spacing:.08em;text-transform:uppercase;border-bottom:2px solid var(--k)}
+html[data-theme="neo"] .menu a:hover{background:var(--c)}
+html[data-theme="neo"] .ci{display:flex;gap:12px;margin-bottom:18px}
+html[data-theme="neo"] .ci .ph{width:72px;aspect-ratio:1;flex:none;padding:0;border:2px solid var(--k);border-radius:8px}
+html[data-theme="neo"] .ci div:last-child{flex:1;font-size:14px}
+html[data-theme="neo"] .q button{width:28px;height:28px;border:2px solid var(--k);border-radius:6px;box-shadow:2px 2px 0 var(--k);background:#fff;font-weight:700}
+html[data-theme="neo"] .q button:active{transform:translate(2px,2px);box-shadow:none}
+html[data-theme="neo"] .df input,html[data-theme="neo"] .df textarea{width:100%;border:2px solid var(--k);padding:10px;margin-bottom:10px;border-radius:8px;background:#fff}
+html[data-theme="neo"] .df input:focus,html[data-theme="neo"] .df textarea:focus{outline:0;box-shadow:3px 3px 0 var(--k)}
+html[data-theme="neo"] .modal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:16px}
+html[data-theme="neo"] .modal.on{display:flex}
+html[data-theme="neo"] .mb{background:#fff;max-width:900px;width:100%;max-height:92vh;overflow:auto;display:grid;grid-template-columns:1fr;position:relative;border:3px solid var(--k);border-radius:14px;box-shadow:8px 8px 0 var(--k)}
+@media(min-width:760px){html[data-theme="neo"] .mb{grid-template-columns:1fr 1fr}}
+html[data-theme="neo"] .mb .x{position:absolute;top:10px;right:12px;background:var(--p);border:2px solid var(--k);border-radius:8px;box-shadow:2px 2px 0 var(--k);width:36px;height:36px;font-size:22px;line-height:1;padding:0;z-index:3}
+html[data-theme="neo"] .mb .ph{border-radius:0;border-bottom:2px solid var(--k)}
+html[data-theme="neo"] .mi{padding:28px}
+html[data-theme="neo"] .mi h2{display:block;text-align:left;font-size:30px;margin:0 0 8px;background:none;border:0;box-shadow:none;padding:0}
+html[data-theme="neo"] .sz{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+html[data-theme="neo"] .sz button{min-width:46px;padding:9px;border:2px solid var(--k);border-radius:8px;box-shadow:3px 3px 0 var(--k);background:#fff;font-weight:700}
+html[data-theme="neo"] .sz button.on{background:var(--o);color:var(--k);transform:translate(2px,2px);box-shadow:1px 1px 0 var(--k)}
+html[data-theme="neo"] .thumbs{display:flex;gap:8px;padding:8px}
+html[data-theme="neo"] .thumbs img{width:56px;height:56px;object-fit:cover;cursor:pointer;opacity:.6;border:2px solid var(--k);border-radius:6px}
+html[data-theme="neo"] .thumbs img.on{opacity:1}
+html[data-theme="neo"] .empty{text-align:center;color:#555;padding:40px;font-weight:600}
+html[data-theme="neo"] .th button{border:2px solid var(--k);border-radius:8px;box-shadow:3px 3px 0 var(--k);background:#fff;font-weight:700;color:var(--k)}
+html[data-theme="neo"] .th button.on{background:var(--o);color:var(--k);border-color:var(--k);transform:translate(2px,2px);box-shadow:1px 1px 0 var(--k)}
+html[data-theme="neo"] .btn:disabled{opacity:1}
 </style></head><body>
 <div id="ann"></div>
 <header>
@@ -84,7 +207,7 @@ footer h2{color:#fff;margin-bottom:12px;font-size:22px}footer a{opacity:.85}.fl{
 
 <div class="ov" id="ov"></div>
 <aside class="drawer" id="dm"><div class="dh"><b class="bb" style="font-size:15px">MENU</b><button data-close>&times;</button></div>
-  <div class="db menu"><a href="#" data-close>Home</a><a href="#all" data-close>All Products</a><a id="igm" href="#" target="_blank">Instagram</a></div></aside>
+  <div class="db menu"><a href="#" data-close>Home</a><a href="#all" data-close>All Products</a><a id="igm" href="#" target="_blank">Instagram</a><div class="th" id="th"><b class="bb">Tema</b><div><button data-th="minimal">Minimal</button><button data-th="neo">Neo-Brutalism</button></div></div></div></aside>
 <aside class="drawer r" id="dw"><div class="dh"><b class="bb" style="font-size:15px">WISHLIST</b><button data-close>&times;</button></div>
   <div class="db" id="wl"></div></aside>
 <aside class="drawer r" id="dc"><div class="dh"><b class="bb" style="font-size:15px">KERANJANG</b><button data-close>&times;</button></div>
@@ -97,7 +220,7 @@ footer h2{color:#fff;margin-bottom:12px;font-size:22px}footer a{opacity:.85}.fl{
 <script>
 /* ===== KONFIGURASI: isi dengan repo GitHub kamu ===== */
 const CFG={owner:'ravengetsuzo',repo:'raven-database',branch:'main',path:'data/store.json',
-  token:'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', // <- (opsional) GitHub token agar stok, wishlist, views, share & ulasan tersimpan untuk SEMUA pembeli (tampil di dashboard admin)
+  token:'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', // <- (opsional) GitHub token agar stok, wishlist, views, share & ulasan tersimpan untuk SEMUA pembeli (tampil di dashboard admin)
   logo:''}; // <- tempel URL logo di sini (atau isi lewat Admin > Pengaturan > Logo)
 /* ==================================================== */
 const DEMO={settings:{name:'Raven Get Suzo',wa:'6285702092051',instagram:'raven',hero:'',announcement:'Gratis ongkir min. belanja Rp 500.000',categories:['Hoodie','Shorts','Knitwear','Zip']},
@@ -143,15 +266,21 @@ async function syncStock(items){
   }catch(e){}
 }
 /* ===== SYNC GENERIK ke GitHub (wishlist/views/share/ulasan -> dashboard admin) ===== */
-async function patchStore(fn){
-  if(!CFG.token)return;
-  try{
-    const u=`https://api.github.com/repos/${CFG.owner}/${CFG.repo}/contents/${CFG.path}`,h={Authorization:'Bearer '+CFG.token,Accept:'application/vnd.github+json'};
-    const f=await (await fetch(u+'?ref='+CFG.branch,{headers:h})).json();
-    const d=JSON.parse(decodeURIComponent(escape(atob(f.content.replace(/\n/g,'')))));
-    fn(d);
-    await fetch(u,{method:'PUT',headers:h,body:JSON.stringify({message:'update data',content:btoa(unescape(encodeURIComponent(JSON.stringify(d,null,2)))),sha:f.sha,branch:CFG.branch})});
-  }catch(e){}
+let PQ=Promise.resolve();
+function patchStore(fn){PQ=PQ.then(()=>patchRun(fn)).catch(()=>{});return PQ}
+async function patchRun(fn){
+  if(!CFG.token)return console.warn('CFG.token kosong: wishlist/views/share/ulasan tidak dikirim ke admin');
+  const u=`https://api.github.com/repos/${CFG.owner}/${CFG.repo}/contents/${CFG.path}`,h={Authorization:'Bearer '+CFG.token.replace(/[^\x21-\x7E]/g,''),Accept:'application/vnd.github+json'};
+  for(let i=0;i<4;i++){ /* antrian + ulang otomatis kalau bentrok (409) */
+    try{
+      const f=await (await fetch(u+'?ref='+CFG.branch+'&t='+Date.now(),{headers:h})).json();
+      const d=JSON.parse(decodeURIComponent(escape(atob(f.content.replace(/\n/g,'')))));
+      fn(d);
+      const r=await fetch(u,{method:'PUT',headers:h,body:JSON.stringify({message:'update data',content:btoa(unescape(encodeURIComponent(JSON.stringify(d,null,2)))),sha:f.sha,branch:CFG.branch})});
+      if(r.ok)return;
+      if(r.status!==409&&r.status!==422)return console.warn('Gagal simpan ke GitHub:',r.status);
+    }catch(e){return console.warn(e)}
+  }
 }
 const stat=(id,k,n)=>patchStore(d=>{const p=(d.products||[]).find(x=>x.id===id);if(p)p[k]=Math.max(0,(p[k]||0)+n)});
 /* ===== RATING & ULASAN ===== */
@@ -205,7 +334,12 @@ function share(p,m){
   (navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>alert('Link produk disalin'),()=>prompt('Salin link produk:',u));
 }
 const showAll=()=>{$('#all').classList.add('show');$('#hero').style.display='none'};
+/* ===== TEMA (Minimal / Neo-Brutalism) ===== */
+function setTheme(t,save){if(t!=='minimal'&&t!=='neo')t='minimal';document.documentElement.dataset.theme=t;if(save)localStorage.setItem('rv_theme',t);document.querySelectorAll('#th [data-th]').forEach(b=>b.classList.toggle('on',b.dataset.th===t))}
+function applyTheme(){const d=S.theme||'minimal',pick=S.themePick!==false;localStorage.setItem('rv_theme_def',d);$('#th').style.display=pick?'':'none';setTheme(pick?(localStorage.getItem('rv_theme')||d):d)}
+$('#th').onclick=e=>{const b=e.target.closest('[data-th]');if(b)setTheme(b.dataset.th,true)};
 function init(){
+  applyTheme();
   P.forEach(p=>p.s0=p.stock);applyStock();
   document.title=S.name||'Raven';$('#ann').textContent=S.announcement||'';$('#ann').style.display=S.announcement?'':'none';
   if(S.hero)$('#hero').style.backgroundImage=`linear-gradient(#0003,#0006),url(${img(S.hero)})`;
