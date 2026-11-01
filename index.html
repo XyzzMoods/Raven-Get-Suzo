@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="id"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Raven Get Suzo</title>
+<title>RavenGetSuzo | Site</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" type="image/jpeg" href="https://files.catbox.moe/zja3e5.jpg">
 <style>
@@ -18,7 +18,7 @@ header button{background:none;border:0;color:#fff;padding:6px;position:relative;
 .hero div{color:#fff}.hero h1{font-size:clamp(48px,9vw,110px);line-height:.95;text-shadow:0 2px 20px #0006}
 .btn{display:inline-block;background:#000;color:#fff;border:1px solid #000;padding:12px 26px;margin-top:12px;letter-spacing:.06em;text-transform:uppercase;font-size:14px}
 .btn.w{background:#fff;color:#000;border-color:#fff}.btn.full{width:100%;text-align:center}
-.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn:disabled{background:#999;border-color:#999;color:#fff;opacity:.6;cursor:not-allowed}
 section{max-width:1200px;margin:0 auto;padding:48px 20px}
 #all{display:none}#all.show{display:block}
 h2{font-size:26px;text-align:center;margin-bottom:32px;color:#000}
@@ -28,10 +28,14 @@ h2{font-size:26px;text-align:center;margin-bottom:32px;color:#000}
 @media(min-width:800px){.grid{grid-template-columns:repeat(4,1fr);gap:40px 24px}}
 .card{cursor:pointer}.ph{aspect-ratio:1/1.1;background:#f2f2f2;display:flex;align-items:center;justify-content:center;color:#aaa;overflow:hidden;position:relative;text-align:center;padding:10px}
 .ph img{width:100%;height:100%;object-fit:cover;transition:.4s}.card:hover .ph img{transform:scale(1.04)}
+.card.so{cursor:not-allowed}.card.so .ph img{filter:grayscale(1);opacity:.45}.card.so:hover .ph img{transform:none}.card.so .ph{background:#e5e5e5}.card.so h3,.card.so p,.card.so small{color:#aaa}
 .tag{position:absolute;top:8px;left:8px;background:#000;color:#fff;font-size:11px;padding:3px 8px;letter-spacing:.08em}
 .card h3{font-weight:500;font-size:14px;margin-top:14px;line-height:1.4}.card p{margin-top:4px}.card small{color:#777}
 footer{background:#000;color:#fff;text-align:center;padding:64px 20px 40px}
 footer h2{color:#fff;margin-bottom:12px;font-size:22px}footer a{opacity:.85}.fl{max-width:1200px;margin:56px auto 0;padding-top:24px;border-top:1px solid #222;text-align:left;font-weight:700;letter-spacing:.2em;font-size:18px}.fl img{height:80px;width:auto;display:block}
+.fl{perspective:900px}.coin{position:relative;display:inline-block;transform-style:preserve-3d;animation:spin3d 2.5s linear infinite}
+.coin img{backface-visibility:hidden;-webkit-backface-visibility:hidden}.coin img+img{position:absolute;top:0;left:0;transform:rotateY(180deg)}
+@keyframes spin3d{to{transform:rotateY(360deg)}}
 .ov{position:fixed;inset:0;background:#0008;z-index:40;display:none}.ov.on{display:block}
 .drawer{position:fixed;top:0;bottom:0;width:min(400px,92vw);background:#fff;z-index:50;transform:translateX(-100%);transition:.3s;display:flex;flex-direction:column}
 .drawer.r{right:0;transform:translateX(100%)}.drawer.on{transform:none}
@@ -79,6 +83,7 @@ footer h2{color:#fff;margin-bottom:12px;font-size:22px}footer a{opacity:.85}.fl{
 <script>
 /* ===== KONFIGURASI: isi dengan repo GitHub kamu ===== */
 const CFG={owner:'ravengetsuzo',repo:'raven-database',branch:'main',path:'data/store.json',
+  token:'', // <- (opsional) GitHub token agar stok berkurang untuk SEMUA pembeli
   logo:''}; // <- tempel URL logo di sini (atau isi lewat Admin > Pengaturan > Logo)
 /* ==================================================== */
 const DEMO={settings:{name:'Raven Get Suzo',wa:'6285702092051',instagram:'raven',hero:'',announcement:'Gratis ongkir min. belanja Rp 500.000',categories:['Hoodie','Shorts','Knitwear','Zip']},
@@ -97,8 +102,32 @@ async function load(){
   init();
 }
 function setLogo(){const L=S.logo||CFG.logo,im=L?`<img src="${esc(img(L))}" alt="${esc(S.name||'Raven')}">`:'';
-  $('#logo').innerHTML=im||'RAVEN';$('#fl').innerHTML=im||esc((S.name||'RAVEN GET SUZO').toUpperCase());}
+  $('#logo').innerHTML=im||'RAVEN';$('#fl').innerHTML=im?`<div class="coin">${im}${im}</div>`:esc((S.name||'RAVEN GET SUZO').toUpperCase());}
+/* ===== STOK: kurangi stok setelah checkout ===== */
+function applyStock(){
+  const m=JSON.parse(localStorage.getItem('rv_sold')||'{}');
+  P.forEach(p=>{const r=m[p.id];if(r&&r.base===p.s0)p.stock=Math.max(0,p.s0-r.sold)});
+}
+function reduceStock(items){
+  const m=JSON.parse(localStorage.getItem('rv_sold')||'{}');
+  items.forEach(c=>{const p=P.find(x=>x.id===c.id);if(!p)return;
+    let r=m[c.id];if(!r||r.base!==p.s0)r={base:p.s0,sold:0};
+    r.sold+=c.qty;m[c.id]=r;p.stock=Math.max(0,p.s0-r.sold)});
+  localStorage.setItem('rv_sold',JSON.stringify(m));
+  syncStock(items);
+}
+async function syncStock(items){
+  if(!CFG.token)return;
+  try{
+    const u=`https://api.github.com/repos/${CFG.owner}/${CFG.repo}/contents/${CFG.path}`,h={Authorization:'Bearer '+CFG.token,Accept:'application/vnd.github+json'};
+    const f=await (await fetch(u+'?ref='+CFG.branch,{headers:h})).json();
+    const d=JSON.parse(decodeURIComponent(escape(atob(f.content.replace(/\n/g,'')))));
+    items.forEach(c=>{const p=(d.products||[]).find(x=>x.id===c.id);if(p)p.stock=Math.max(0,(p.stock||0)-c.qty)});
+    await fetch(u,{method:'PUT',headers:h,body:JSON.stringify({message:'update stok',content:btoa(unescape(encodeURIComponent(JSON.stringify(d,null,2)))),sha:f.sha,branch:CFG.branch})});
+  }catch(e){}
+}
 function init(){
+  P.forEach(p=>p.s0=p.stock);applyStock();
   document.title=S.name||'Raven';$('#ann').textContent=S.announcement||'';$('#ann').style.display=S.announcement?'':'none';
   if(S.hero)$('#hero').style.backgroundImage=`linear-gradient(#0003,#0006),url(${img(S.hero)})`;
   const ig=`https://instagram.com/${(S.instagram||'').replace('@','')}`;
@@ -108,7 +137,7 @@ function init(){
   $('#fs').innerHTML='<option value="">size : all</option>'+sizes.map(c=>`<option>${esc(c)}</option>`).join('');
   render();cartUI();
 }
-const card=p=>`<div class="card" data-id="${esc(p.id)}"><div class="ph">${p.images?.[0]?`<img loading="lazy" src="${esc(img(p.images[0]))}" alt="${esc(p.name)}">`:esc(p.name)}${p.stock<=0?'<span class="tag">SOLD OUT</span>':''}</div>
+const card=p=>`<div class="card${p.stock<=0?' so':''}" data-id="${esc(p.id)}"><div class="ph">${p.images?.[0]?`<img loading="lazy" src="${esc(img(p.images[0]))}" alt="${esc(p.name)}">`:esc(p.name)}${p.stock<=0?'<span class="tag">SOLD OUT</span>':''}</div>
 <h3>${esc(p.name)}</h3><p>${rp(p.price)}</p>${p.rating?`<small>&#9734; ${p.rating}</small>`:''}</div>`;
 function render(){
   const f=p=>p.featured;
@@ -128,10 +157,10 @@ document.addEventListener('click',e=>{
   if(e.target.closest('a[href="#all"]')){$('#all').classList.add('show');$('#hero').style.display='none';}
   if(e.target.closest('[data-close]'))closeAll();
   if(e.target===$('#pm'))closeAll();
-  const c=e.target.closest('.card');if(c)product(c.dataset.id);
+  const c=e.target.closest('.card');if(c&&!c.classList.contains('so'))product(c.dataset.id);
 });
 function product(id){
-  const p=P.find(x=>x.id===id);if(!p)return;sel={size:'',id};
+  const p=P.find(x=>x.id===id);if(!p||p.stock<=0)return;sel={size:'',id};
   const im=p.images||[];
   $('#pb').innerHTML=`<button class="x" data-close>&times;</button>
   <div><div class="ph" style="aspect-ratio:1/1.1">${im[0]?`<img id="mi" src="${esc(img(im[0]))}">`:esc(p.name)}</div>
@@ -146,6 +175,7 @@ function product(id){
     if(s){sel.size=s;[...$('#pb').querySelectorAll('.sz button')].forEach(b=>b.classList.toggle('on',b.dataset.s===s))}
     if(t!=null){$('#mi').src=img(im[t]);[...e.target.parentNode.children].forEach(x=>x.classList.toggle('on',x===e.target))}
     if(e.target.id==='add'){
+      if(p.stock<=0)return;
       if((p.sizes||[]).length&&!sel.size)return alert('Pilih ukuran dulu');
       const k=cart.find(c=>c.id===id&&c.size===sel.size);k?k.qty=Math.min(k.qty+1,p.stock):cart.push({id,size:sel.size,qty:1});
       saveCart();closeAll();cartUI();openD('#dc');
@@ -154,7 +184,10 @@ function product(id){
 }
 const saveCart=()=>localStorage.setItem('rv_cart',JSON.stringify(cart));
 function cartUI(){
-  cart=cart.filter(c=>P.find(p=>p.id===c.id));
+  /* hapus item yang produknya sudah hilang / stok habis, dan batasi qty sesuai stok */
+  cart=cart.filter(c=>{const p=P.find(x=>x.id===c.id);return p&&p.stock>0});
+  cart.forEach(c=>{const p=P.find(x=>x.id===c.id);c.qty=Math.min(c.qty,p.stock)});
+  saveCart();
   $('#cc').textContent=cart.reduce((a,c)=>a+c.qty,0);
   let t=0;$('#cl').innerHTML=cart.length?cart.map((c,i)=>{const p=P.find(x=>x.id===c.id);t+=p.price*c.qty;
     return `<div class="ci"><div class="ph">${p.images?.[0]?`<img src="${esc(img(p.images[0]))}">`:''}</div><div><b>${esc(p.name)}</b><br>${c.size?'Size '+esc(c.size)+' · ':''}${rp(p.price)}
@@ -172,6 +205,10 @@ $('#co').onclick=()=>{
   cart.forEach(c=>{const p=P.find(x=>x.id===c.id);t+=p.price*c.qty;m+=`- ${p.name}${c.size?' ('+c.size+')':''} x${c.qty} = ${rp(p.price*c.qty)}\n`});
   m+=`\nTotal: ${rp(t)}\nNama: ${n}\nAlamat: ${a}`;
   window.open(`https://wa.me/${S.wa}?text=${encodeURIComponent(m)}`,'_blank');
+  /* setelah checkout: kosongkan keranjang & form */
+  const items=cart.map(c=>({id:c.id,qty:c.qty}));
+  cart=[];saveCart();$('#cn').value='';$('#ca').value='';
+  reduceStock(items);render();cartUI();closeAll();
 };
 load();
 </script></body></html>
