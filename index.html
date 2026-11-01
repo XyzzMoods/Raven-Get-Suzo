@@ -20,6 +20,7 @@ header button{background:none;border:0;color:#fff;padding:6px;position:relative;
 .btn.w{background:#fff;color:#000;border-color:#fff}.btn.full{width:100%;text-align:center}
 .btn:disabled{opacity:.35;cursor:not-allowed}
 section{max-width:1200px;margin:0 auto;padding:48px 20px}
+#all{display:none}#all.show{display:block}
 h2{font-size:26px;text-align:center;margin-bottom:32px;color:#000}
 .filters{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:32px}
 .filters select{appearance:none;-webkit-appearance:none;border:1px solid #ddd;background:#fff url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M1 1l4 4 4-4' fill='none' stroke='black' stroke-width='1.5'/></svg>") no-repeat right 12px center;padding:12px 34px 12px 14px;border-radius:0;font-weight:500;font-size:14px;color:#111;cursor:pointer}.filters select:hover,.filters select:focus{border-color:#000;outline:0}.btn{transition:.2s}.btn:hover{opacity:.8}
@@ -124,6 +125,7 @@ function openD(d){$('#ov').classList.add('on');$(d).classList.add('on')}
 function closeAll(){document.querySelectorAll('.drawer,.ov,.modal').forEach(e=>e.classList.remove('on'))}
 $('#bm').onclick=()=>openD('#dm');$('#bc').onclick=()=>{cartUI();openD('#dc')};$('#ov').onclick=closeAll;
 document.addEventListener('click',e=>{
+  if(e.target.closest('a[href="#all"]')){$('#all').classList.add('show');$('#hero').style.display='none';}
   if(e.target.closest('[data-close]'))closeAll();
   if(e.target===$('#pm'))closeAll();
   const c=e.target.closest('.card');if(c)product(c.dataset.id);
