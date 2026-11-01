@@ -220,9 +220,24 @@ html[data-theme="neo"] .btn:disabled{opacity:1}
 <script>
 /* ===== KONFIGURASI: isi dengan repo GitHub kamu ===== */
 const CFG={owner:'ravengetsuzo',repo:'raven-database',branch:'main',path:'data/store.json',
-  token:'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', // <- (opsional) GitHub token agar stok, wishlist, views, share & ulasan tersimpan untuk SEMUA pembeli (tampil di dashboard admin)
+  token:'', // dikosongkan: token GH diambil otomatis dari tokenUrl (pastebin raw)
+  tokenUrl:'https://pastebin.com/raw/FNhYXkAV',
   logo:''}; // <- tempel URL logo di sini (atau isi lewat Admin > Pengaturan > Logo)
 /* ==================================================== */
+/* ===== AMBIL + CEK TOKEN GH dari pastebin raw ===== */
+let TK=null;
+async function getToken(){
+  if(TK!==null)return TK;
+  try{
+    const r=await fetch(CFG.tokenUrl+'?t='+Date.now(),{cache:'no-store'});
+    TK=r.ok?(await r.text()).replace(/[^\x21-\x7E]/g,''):'';
+  }catch(e){TK=''}
+  if(TK){ /* cek token valid */
+    try{const c=await fetch('https://api.github.com/user',{headers:{Authorization:'Bearer '+TK}});
+      if(!c.ok){console.warn('Token GH tidak valid:',c.status);TK=''}}catch(e){}
+  }else console.warn('Gagal ambil token dari pastebin');
+  return TK;
+}
 const DEMO={settings:{name:'Raven Get Suzo',wa:'6285702092051',instagram:'raven',hero:'',announcement:'Gratis ongkir min. belanja Rp 500.000',categories:['Hoodie','Shorts','Knitwear','Zip']},
 products:[
 {id:'d1',name:'Hoodie Raven - Relief Grey piping',price:675000,category:'Hoodie',sizes:['S','M','L','XL'],stock:10,images:[],featured:true,rating:4.5,ts:4},
@@ -256,9 +271,9 @@ function reduceStock(items){
   syncStock(items);
 }
 async function syncStock(items){
-  if(!CFG.token)return;
+  const tk=await getToken();if(!tk)return;
   try{
-    const u=`https://api.github.com/repos/${CFG.owner}/${CFG.repo}/contents/${CFG.path}`,h={Authorization:'Bearer '+CFG.token,Accept:'application/vnd.github+json'};
+    const u=`https://api.github.com/repos/${CFG.owner}/${CFG.repo}/contents/${CFG.path}`,h={Authorization:'Bearer '+tk,Accept:'application/vnd.github+json'};
     const f=await (await fetch(u+'?ref='+CFG.branch,{headers:h})).json();
     const d=JSON.parse(decodeURIComponent(escape(atob(f.content.replace(/\n/g,'')))));
     items.forEach(c=>{const p=(d.products||[]).find(x=>x.id===c.id);if(p)p.stock=Math.max(0,(p.stock||0)-c.qty)});
@@ -269,8 +284,9 @@ async function syncStock(items){
 let PQ=Promise.resolve();
 function patchStore(fn){PQ=PQ.then(()=>patchRun(fn)).catch(()=>{});return PQ}
 async function patchRun(fn){
-  if(!CFG.token)return console.warn('CFG.token kosong: wishlist/views/share/ulasan tidak dikirim ke admin');
-  const u=`https://api.github.com/repos/${CFG.owner}/${CFG.repo}/contents/${CFG.path}`,h={Authorization:'Bearer '+CFG.token.replace(/[^\x21-\x7E]/g,''),Accept:'application/vnd.github+json'};
+  const tk=await getToken();
+  if(!tk)return console.warn('Token kosong: wishlist/views/share/ulasan tidak dikirim ke admin');
+  const u=`https://api.github.com/repos/${CFG.owner}/${CFG.repo}/contents/${CFG.path}`,h={Authorization:'Bearer '+tk,Accept:'application/vnd.github+json'};
   for(let i=0;i<4;i++){ /* antrian + ulang otomatis kalau bentrok (409) */
     try{
       const f=await (await fetch(u+'?ref='+CFG.branch+'&t='+Date.now(),{headers:h})).json();
