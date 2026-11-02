@@ -35,11 +35,7 @@ h2{font-size:26px;text-align:center;margin-bottom:32px;color:#000}
 .tag.ltd{top:auto;bottom:8px;background:#fff;color:#000;border:1px solid #000}
 .heart{position:absolute;top:8px;right:8px;background:#fff;border:0;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:2;padding:0;box-shadow:0 1px 6px #0002}
 .heart svg{width:16px;height:16px;fill:none;stroke:#000;stroke-width:1.8;pointer-events:none}.heart.on svg{fill:#000}
-.stars i{font-style:normal;color:#ccc}.stars i.on{color:#000}
 .shr{display:flex;gap:8px;margin-top:10px}.shr button{flex:1;padding:10px 4px;border:1px solid #ccc;background:#fff;font-size:13px}.shr button:hover{border-color:#000}
-.rvs{margin-top:24px;border-top:1px solid #eee;padding-top:16px}.rv{padding:12px 0;border-bottom:1px solid #f0f0f0;font-size:14px}
-.rf{margin-top:16px}.rf input,.rf textarea{width:100%;border:1px solid #ddd;padding:10px;margin:6px 0;border-radius:0}
-.sp button{background:none;border:0;font-size:28px;color:#ccc;padding:0 3px;line-height:1}.sp button.on{color:#000}
 .card h3{font-weight:500;font-size:14px;margin-top:14px;line-height:1.4}.card p{margin-top:4px}.card small{color:#777}
 footer{background:#000;color:#fff;text-align:center;padding:64px 20px 40px}
 footer h2{color:#fff;margin-bottom:12px;font-size:22px}footer a{opacity:.85}.fl{max-width:1200px;margin:56px auto 0;padding-top:24px;border-top:1px solid #222;text-align:left;font-weight:700;letter-spacing:.2em;font-size:18px}.fl img{height:80px;width:auto;display:block}
@@ -121,24 +117,13 @@ html[data-theme="neo"] .heart:active{transform:translate(2px,2px);box-shadow:0 0
 html[data-theme="neo"] .heart svg{width:16px;height:16px;fill:none;stroke:var(--k);stroke-width:2;pointer-events:none}
 html[data-theme="neo"] .heart.on{background:var(--p)}
 html[data-theme="neo"] .heart.on svg{fill:var(--k)}
-html[data-theme="neo"] .stars i{font-style:normal;color:#ccc}
-html[data-theme="neo"] .stars i.on{color:var(--o);-webkit-text-stroke:.8px var(--k)}
 html[data-theme="neo"] .shr{display:flex;gap:10px;margin-top:14px}
 html[data-theme="neo"] .shr button{flex:1;padding:9px 4px;border:2px solid var(--k);border-radius:8px;box-shadow:3px 3px 0 var(--k);background:#fff;font-size:13px;font-weight:600;transition:transform .08s,box-shadow .08s}
 html[data-theme="neo"] .shr button:nth-child(1){background:var(--c)}
 html[data-theme="neo"] .shr button:nth-child(2){background:var(--o)}
 html[data-theme="neo"] .shr button:hover{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--k)}
-html[data-theme="neo"] .rvs{margin-top:26px;border-top:2px solid var(--k);padding-top:16px}
-html[data-theme="neo"] .rv{padding:12px 0;border-bottom:1px dashed #999;font-size:14px}
-html[data-theme="neo"] .rf{margin-top:16px}
-html[data-theme="neo"] .rf input,html[data-theme="neo"] .rf textarea{width:100%;border:2px solid var(--k);padding:10px;margin:6px 0;border-radius:8px;background:#fff}
-html[data-theme="neo"] .rf input:focus,html[data-theme="neo"] .rf textarea:focus{outline:0;box-shadow:3px 3px 0 var(--k)}
-html[data-theme="neo"] .sp button{background:none;border:0;font-size:30px;color:#ccc;padding:0 3px;line-height:1}
-html[data-theme="neo"] .sp button.on{color:var(--o);-webkit-text-stroke:1px var(--k)}
 html[data-theme="neo"] .card h3{font-weight:700;font-size:14px;margin-top:12px;line-height:1.4;padding:0 12px}
-html[data-theme="neo"] .card p{margin-top:4px;padding:0 12px;font:700 14px 'Space Mono',monospace}
-html[data-theme="neo"] .card p:last-child{padding-bottom:12px}
-html[data-theme="neo"] .card small{display:block;color:#555;padding:2px 12px 12px;font-weight:600}
+html[data-theme="neo"] .card p{margin-top:4px;padding:0 12px 12px;font:700 14px 'Space Mono',monospace}
 html[data-theme="neo"] footer{background:#000;color:#fff;text-align:center;padding:64px 20px 40px;border-top:3px solid var(--o)}
 html[data-theme="neo"] footer h2{color:var(--k);background:var(--o);margin-bottom:18px;font-size:22px;box-shadow:5px 5px 0 var(--p)}
 html[data-theme="neo"] footer a{color:var(--o);font-weight:700;text-decoration:underline}
@@ -220,32 +205,16 @@ html[data-theme="neo"] .btn:disabled{opacity:1}
 <script>
 /* ===== KONFIGURASI: isi dengan repo GitHub kamu ===== */
 const CFG={owner:'ravengetsuzo',repo:'raven-database',branch:'main',path:'data/store.json',
-  token:'', // dikosongkan: token GH diambil otomatis dari tokenUrl (pastebin raw)
-  tokenUrl:'https://pastebin.com/raw/FNhYXkAV',
   logo:''}; // <- tempel URL logo di sini (atau isi lewat Admin > Pengaturan > Logo)
 /* ==================================================== */
-/* ===== AMBIL + CEK TOKEN GH dari pastebin raw ===== */
-let TK=null;
-async function getToken(){
-  if(TK!==null)return TK;
-  try{
-    const r=await fetch(CFG.tokenUrl+'?t='+Date.now(),{cache:'no-store'});
-    TK=r.ok?(await r.text()).replace(/[^\x21-\x7E]/g,''):'';
-  }catch(e){TK=''}
-  if(TK){ /* cek token valid */
-    try{const c=await fetch('https://api.github.com/user',{headers:{Authorization:'Bearer '+TK}});
-      if(!c.ok){console.warn('Token GH tidak valid:',c.status);TK=''}}catch(e){}
-  }else console.warn('Gagal ambil token dari pastebin');
-  return TK;
-}
 const DEMO={settings:{name:'Raven Get Suzo',wa:'6285702092051',instagram:'raven',hero:'',announcement:'Gratis ongkir min. belanja Rp 500.000',categories:['Hoodie','Shorts','Knitwear','Zip']},
 products:[
-{id:'d1',name:'Hoodie Raven - Relief Grey piping',price:675000,category:'Hoodie',sizes:['S','M','L','XL'],stock:10,images:[],featured:true,rating:4.5,ts:4},
-{id:'d2',name:'Short Sweatpants Raven - Dept',price:550000,category:'Shorts',sizes:['M','L','XL'],stock:6,images:[],featured:true,rating:4.5,ts:3},
-{id:'d3',name:'Knitwear Raven - Limbo',price:450000,category:'Knitwear',sizes:['M','L'],stock:0,images:[],featured:true,rating:4.8,ts:2},
-{id:'d4',name:'Zip Fitted Raven - Nord Black',price:649000,category:'Zip',sizes:['S','M','L'],stock:8,images:[],featured:true,limited:true,rating:5,ts:1}]};
-let S=DEMO.settings,P=DEMO.products,cart=JSON.parse(localStorage.getItem('rv_cart')||'[]'),sel={size:'',id:'',rate:0};
-let W=JSON.parse(localStorage.getItem('rv_wish')||'[]'),RV=JSON.parse(localStorage.getItem('rv_rv')||'[]'),MY=JSON.parse(localStorage.getItem('rv_myrev')||'{}');
+{id:'d1',name:'Hoodie Raven - Relief Grey piping',price:675000,category:'Hoodie',sizes:['S','M','L','XL'],stock:10,images:[],featured:true,ts:4},
+{id:'d2',name:'Short Sweatpants Raven - Dept',price:550000,category:'Shorts',sizes:['M','L','XL'],stock:6,images:[],featured:true,ts:3},
+{id:'d3',name:'Knitwear Raven - Limbo',price:450000,category:'Knitwear',sizes:['M','L'],stock:0,images:[],featured:true,ts:2},
+{id:'d4',name:'Zip Fitted Raven - Nord Black',price:649000,category:'Zip',sizes:['S','M','L'],stock:8,images:[],featured:true,limited:true,ts:1}]};
+let S=DEMO.settings,P=DEMO.products,cart=JSON.parse(localStorage.getItem('rv_cart')||'[]'),sel={size:'',id:''};
+let W=JSON.parse(localStorage.getItem('rv_wish')||'[]'),RV=JSON.parse(localStorage.getItem('rv_rv')||'[]');
 const $=s=>document.querySelector(s),rp=n=>'Rp '+Number(n).toLocaleString('id-ID');
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const img=p=>!p?'':/^(https?:|data:)/.test(p)?p:`https://raw.githubusercontent.com/${CFG.owner}/${CFG.repo}/${CFG.branch}/${p}`;
@@ -257,7 +226,7 @@ async function load(){
 }
 function setLogo(){const L=S.logo||CFG.logo,im=L?`<img src="${esc(img(L))}" alt="${esc(S.name||'Raven')}">`:'';
   $('#logo').innerHTML=im||'RAVEN';$('#fl').innerHTML=im?`<div class="coin">${im}${im}</div>`:esc((S.name||'RAVEN GET SUZO').toUpperCase());}
-/* ===== STOK: kurangi stok setelah checkout ===== */
+/* ===== STOK: hanya lokal di browser pembeli (tidak ditulis ke GitHub / admin) ===== */
 function applyStock(){
   const m=JSON.parse(localStorage.getItem('rv_sold')||'{}');
   P.forEach(p=>{const r=m[p.id];if(r&&r.base===p.s0)p.stock=Math.max(0,p.s0-r.sold)});
@@ -268,61 +237,12 @@ function reduceStock(items){
     let r=m[c.id];if(!r||r.base!==p.s0)r={base:p.s0,sold:0};
     r.sold+=c.qty;m[c.id]=r;p.stock=Math.max(0,p.s0-r.sold)});
   localStorage.setItem('rv_sold',JSON.stringify(m));
-  syncStock(items);
 }
-async function syncStock(items){
-  const tk=await getToken();if(!tk)return;
-  try{
-    const u=`https://api.github.com/repos/${CFG.owner}/${CFG.repo}/contents/${CFG.path}`,h={Authorization:'Bearer '+tk,Accept:'application/vnd.github+json'};
-    const f=await (await fetch(u+'?ref='+CFG.branch,{headers:h})).json();
-    const d=JSON.parse(decodeURIComponent(escape(atob(f.content.replace(/\n/g,'')))));
-    items.forEach(c=>{const p=(d.products||[]).find(x=>x.id===c.id);if(p)p.stock=Math.max(0,(p.stock||0)-c.qty)});
-    await fetch(u,{method:'PUT',headers:h,body:JSON.stringify({message:'update stok',content:btoa(unescape(encodeURIComponent(JSON.stringify(d,null,2)))),sha:f.sha,branch:CFG.branch})});
-  }catch(e){}
-}
-/* ===== SYNC GENERIK ke GitHub (wishlist/views/share/ulasan -> dashboard admin) ===== */
-let PQ=Promise.resolve();
-function patchStore(fn){PQ=PQ.then(()=>patchRun(fn)).catch(()=>{});return PQ}
-async function patchRun(fn){
-  const tk=await getToken();
-  if(!tk)return console.warn('Token kosong: wishlist/views/share/ulasan tidak dikirim ke admin');
-  const u=`https://api.github.com/repos/${CFG.owner}/${CFG.repo}/contents/${CFG.path}`,h={Authorization:'Bearer '+tk,Accept:'application/vnd.github+json'};
-  for(let i=0;i<4;i++){ /* antrian + ulang otomatis kalau bentrok (409) */
-    try{
-      const f=await (await fetch(u+'?ref='+CFG.branch+'&t='+Date.now(),{headers:h})).json();
-      const d=JSON.parse(decodeURIComponent(escape(atob(f.content.replace(/\n/g,'')))));
-      fn(d);
-      const r=await fetch(u,{method:'PUT',headers:h,body:JSON.stringify({message:'update data',content:btoa(unescape(encodeURIComponent(JSON.stringify(d,null,2)))),sha:f.sha,branch:CFG.branch})});
-      if(r.ok)return;
-      if(r.status!==409&&r.status!==422)return console.warn('Gagal simpan ke GitHub:',r.status);
-    }catch(e){return console.warn(e)}
-  }
-}
-const stat=(id,k,n)=>patchStore(d=>{const p=(d.products||[]).find(x=>x.id===id);if(p)p[k]=Math.max(0,(p[k]||0)+n)});
-/* ===== RATING & ULASAN ===== */
-const st=n=>[1,2,3,4,5].map(i=>`<i class="${i<=Math.round(n)?'on':''}">&#9733;</i>`).join('');
-const rl=p=>{const a=(p.reviews||[]).filter(r=>r.ok),m=(MY[p.id]||[]).filter(r=>!a.some(x=>x.id===r.id));return[...m,...a]};
-const cnt=p=>rl(p).filter(r=>r.ok).length;
-const avg=p=>{const l=rl(p).filter(r=>r.ok);return l.length?l.reduce((a,r)=>a+r.r,0)/l.length:(+p.rating||0)};
-const revHTML=p=>`<div class="rvs"><b class="bb" style="font-size:14px">Ulasan (${cnt(p)})</b>
-${rl(p).length?rl(p).map(r=>`<div class="rv"><span class="stars">${st(r.r)}</span> <b>${esc(r.n)}</b> <small style="color:#888">${new Date(r.ts).toLocaleDateString('id-ID')}${r.ok?'':' &middot; menunggu persetujuan admin'}</small>${r.t?`<p style="margin-top:4px">${esc(r.t)}</p>`:''}</div>`).join(''):'<p class="empty" style="padding:16px">Belum ada ulasan.</p>'}
-<div class="rf"><div>Beri rating</div><div class="sp">${[1,2,3,4,5].map(i=>`<button data-st="${i}">&#9733;</button>`).join('')}</div>
-<input id="rn" placeholder="Nama kamu"><textarea id="rt" rows="3" placeholder="Tulis ulasan (opsional)"></textarea>
-<button class="btn full" id="rvsend">Kirim ulasan</button></div></div>`;
-function sendReview(id){
-  const n=$('#rn').value.trim(),t=$('#rt').value.trim();
-  if(!sel.rate)return alert('Pilih rating bintang dulu');if(!n)return alert('Isi nama kamu');
-  const r={id:'r'+Date.now(),n,r:sel.rate,t,ts:Date.now(),ok:!!S.autoApprove};
-  (MY[id]=MY[id]||[]).push(r);localStorage.setItem('rv_myrev',JSON.stringify(MY));
-  patchStore(d=>{const p=(d.products||[]).find(x=>x.id===id);if(p)(p.reviews=p.reviews||[]).push(r)});
-  alert(r.ok?'Terima kasih! Ulasan kamu sudah tampil.':'Terima kasih! Ulasan kamu akan tampil setelah disetujui admin.');
-  product(id);render();rvUI();
-}
-/* ===== WISHLIST ===== */
+/* ===== WISHLIST (lokal) ===== */
 const heart=id=>F('wish')?`<button class="heart${W.includes(id)?' on':''}" data-w="${esc(id)}" aria-label="Wishlist"><svg viewBox="0 0 24 24"><path d="M12 20.5s-8-4.9-8-10.6A4.4 4.4 0 0 1 12 7a4.4 4.4 0 0 1 8 2.9c0 5.700-8 10.600-8 10.600z"/></svg></button>`:'';
 function toggleWish(id){
   const i=W.indexOf(id);i>=0?W.splice(i,1):W.push(id);
-  localStorage.setItem('rv_wish',JSON.stringify(W));stat(id,'wish',i>=0?-1:1);
+  localStorage.setItem('rv_wish',JSON.stringify(W));
   render();rvUI();wishUI();
   document.querySelectorAll('#pb [data-w]').forEach(b=>b.classList.toggle('on',W.includes(b.dataset.w)));
 }
@@ -335,7 +255,7 @@ function wishUI(){
 $('#wl').onclick=e=>{const o=e.target.dataset.wo,x=e.target.dataset.wx;
   if(x)toggleWish(x);
   if(o){closeAll();showAll();product(o)}};
-/* ===== RECENTLY VIEWED ===== */
+/* ===== RECENTLY VIEWED (lokal) ===== */
 function addRV(id){RV=[id,...RV.filter(x=>x!==id)].slice(0,8);localStorage.setItem('rv_rv',JSON.stringify(RV))}
 function rvUI(){
   const l=RV.map(id=>P.find(p=>p.id===id)).filter(Boolean).slice(0,4);
@@ -344,7 +264,6 @@ function rvUI(){
 /* ===== SHARE ===== */
 function share(p,m){
   const u=location.href.split('#')[0]+'#p='+encodeURIComponent(p.id),t=`${p.name} - ${rp(p.price)}`;
-  stat(p.id,'shares',1);
   if(m==='wa')return window.open('https://wa.me/?text='+encodeURIComponent(t+'\n'+u),'_blank');
   if(m==='n'&&navigator.share)return navigator.share({title:p.name,text:t,url:u}).catch(()=>{});
   (navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>alert('Link produk disalin'),()=>prompt('Salin link produk:',u));
@@ -369,9 +288,8 @@ function init(){
   const m=location.hash.match(/^#p=(.+)$/);if(m){showAll();product(decodeURIComponent(m[1]))}
 }
 const card=p=>`<div class="card${p.stock<=0?' so':''}" data-id="${esc(p.id)}"><div class="ph">${p.images?.[0]?`<img loading="lazy" src="${esc(img(p.images[0]))}" alt="${esc(p.name)}">`:esc(p.name)}${p.stock<=0?'<span class="tag">SOLD OUT</span>':''}${p.limited?'<span class="tag ltd">LIMITED EDITION</span>':''}${heart(p.id)}</div>
-<h3>${esc(p.name)}</h3><p>${rp(p.price)}</p>${avg(p)?`<small>&#9733; ${avg(p).toFixed(1)}${cnt(p)?` (${cnt(p)})`:''}</small>`:''}</div>`;
+<h3>${esc(p.name)}</h3><p>${rp(p.price)}</p></div>`;
 function render(){
-  const f=p=>p.featured;
   let l=[...P];const c=$('#fc').value,s=$('#fs').value,pr=$('#fp').value,a=$('#fa').value,o=$('#fo').value;
   if(c)l=l.filter(p=>p.category===c);if(s)l=l.filter(p=>(p.sizes||[]).includes(s));
   if(pr){const[x,y]=pr.split('-').map(Number);l=l.filter(p=>p.price>=x&&p.price<y)}
@@ -392,28 +310,24 @@ document.addEventListener('click',e=>{
   const c=e.target.closest('.card');if(c&&!c.classList.contains('so'))product(c.dataset.id);
 });
 function product(id){
-  const p=P.find(x=>x.id===id);if(!p||p.stock<=0)return;sel={size:'',id,rate:0};
+  const p=P.find(x=>x.id===id);if(!p||p.stock<=0)return;sel={size:'',id};
   addRV(id);rvUI();
-  if(!sessionStorage.getItem('v'+id)){sessionStorage.setItem('v'+id,1);stat(id,'views',1)}
   const im=p.images||[];
   $('#pb').innerHTML=`<button class="x" data-close>&times;</button>
   <div><div class="ph" style="aspect-ratio:1/1.1">${im[0]?`<img id="mi" src="${esc(img(im[0]))}">`:esc(p.name)}${heart(p.id)}</div>
   ${im.length>1?`<div class="thumbs">${im.map((u,i)=>`<img class="${i?'':'on'}" src="${esc(img(u))}" data-t="${i}">`).join('')}</div>`:''}</div>
   <div class="mi">${p.limited?'<span class="tag" style="position:static;display:inline-block;margin-bottom:10px;background:#fff;color:#000;border:1px solid #000">LIMITED EDITION</span>':''}<h2>${esc(p.name)}</h2>
-  ${avg(p)?`<div style="margin-bottom:6px;font-size:14px"><span class="stars">${st(avg(p))}</span> ${avg(p).toFixed(1)}${cnt(p)?` (${cnt(p)} ulasan)`:''}</div>`:''}<b>${rp(p.price)}</b><p style="color:#666;margin:14px 0;white-space:pre-line">${esc(p.desc||'')}</p>
+  <b>${rp(p.price)}</b><p style="color:#666;margin:14px 0;white-space:pre-line">${esc(p.desc||'')}</p>
   <div>Ukuran</div><div class="sz">${(p.sizes||[]).map(s=>`<button data-s="${esc(s)}">${esc(s)}</button>`).join('')}</div>
   <small style="color:#888">${p.stock>0?'Stok: '+p.stock:'Stok habis'}</small><br>
   <button class="btn full" id="add" ${p.stock<=0?'disabled':''}>${p.stock<=0?'Sold out':'Tambah ke keranjang'}</button>
-  ${F('share')?`<div class="shr"><button data-sh="n">Bagikan</button><button data-sh="wa">WhatsApp</button><button data-sh="cp">Salin link</button></div>`:''}
-  ${F('review')?revHTML(p):''}</div>`;
+  ${F('share')?`<div class="shr"><button data-sh="n">Bagikan</button><button data-sh="wa">WhatsApp</button><button data-sh="cp">Salin link</button></div>`:''}</div>`;
   $('#ov').classList.add('on');$('#pm').classList.add('on');
   $('#pb').onclick=e=>{
     const s=e.target.dataset.s,t=e.target.dataset.t,b=e.target.closest('button');
     if(s){sel.size=s;[...$('#pb').querySelectorAll('.sz button')].forEach(b=>b.classList.toggle('on',b.dataset.s===s))}
     if(t!=null){$('#mi').src=img(im[t]);[...e.target.parentNode.children].forEach(x=>x.classList.toggle('on',x===e.target))}
-    if(b&&b.dataset.st){sel.rate=+b.dataset.st;[...$('#pb').querySelectorAll('.sp button')].forEach(x=>x.classList.toggle('on',+x.dataset.st<=sel.rate))}
     if(b&&b.dataset.sh)share(p,b.dataset.sh);
-    if(b&&b.id==='rvsend')sendReview(id);
     if(e.target.id==='add'){
       if(p.stock<=0)return;
       if((p.sizes||[]).length&&!sel.size)return alert('Pilih ukuran dulu');
